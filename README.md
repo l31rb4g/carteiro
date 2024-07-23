@@ -11,6 +11,13 @@ git submodule add https://github.com/l31rb4g/carteiro.git mail
 ⚠ Atenção para o `mail` no final do comando.
 
 
+## DNS
+Entrada MX apontando para cá:
+```
+# dig mx example.com
+> example.		300	IN	MX	10 example.com.
+```
+
 ## Variáveis
 - CARTEIRO_PORTA=9990
 - CARTEIRO_DOMINIO=example.com
