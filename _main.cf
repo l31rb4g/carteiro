@@ -1,0 +1,25 @@
+
+mail_name = {{ DOMINIO }}
+mydomain = {{ DOMINIO }}
+myhostname = {{ DOMINIO }}
+
+myorigin = $mydomain
+mydestination = $mydomain, localhost.$mydomain, localhost
+
+mynetworks_style = host
+mynetworks = 127.0.0.0/8
+
+relay_domains = $mydomain
+relayhost =
+
+message_size_limit = 0
+mailbox_size_limit = 0
+recipient_delimiter = +
+
+inet_interfaces = all
+inet_protocols = ipv4
+
+compatibility_level = 2
+home_mailbox = Maildir/
+virtual_alias_maps = hash:/etc/postfix/virtual
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Carteiro</title>
+  <link rel="stylesheet" href="/static/css/global.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <h1>
+    <i class="fa-regular fa-envelope"></i> Carteiro
+    <span id="dominio">edron.io</span>
+  </h1>
+
+  <main>
+    <div class="left">
+      <div id="menu">
+        <a class="sel"><i class="fa-solid fa-inbox"></i> Inbox</a>
+        <!--<a><i class="fa-solid fa-trash"></i> Trash</a>-->
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="wrapper">
+
+        <div id="toolbar">
+          <div class="mail_list">
+            <input type="checkbox">
+            <button id="btn_reload"><i class="fa-solid fa-rotate-right"></i> atualizar</button>
+            <div class="multi">
+              <button id="btn_delete_all"><i class="fa-solid fa-trash"></i> excluir</button>
+            </div>
+          </div>
+          <div class="mail">
+            <button id="btn_back"><i class="fa-solid fa-left-long"></i> voltar</button>
+            <button id="btn_delete"><i class="fa-solid fa-trash"></i> excluir</button>
+          </div>
+        </div>
+
+        <ul id="mail_list">
+          {% for message in messages %}
+          <li id="mail_{{ message.id }}" class="{% if message.read %}read{% endif %}">
+            <div class="id" style="display:none">{{ message.id }}</div>
+            <div class="check">
+              <input type="checkbox">
+            </div>
+
+            <div class="from">
+              {% if message.from_name %} {{ message.from_name }} {% else %} {{ message.from_email }} {% endif %}
+            </div>
+
+            <div class="from_full" style="display:none">
+              {% if message.from_name %}
+                {{ message.from_name }}
+              {% endif %}
+              &lt;{{ message.from_email }}&gt;
+            </div>
+
+            <div class="to" style="display:none">{{ message.to }}</div>
+            <div class="subject">{{ message.subject }}</div>
+            <div style="padding: 0 5px;">-</div>
+            <div class="resumo">{{ message.resumo }}</div>
+            <div class="content_full" style="display:none">{{ message.parts.1.content | safe }}</div>
+            <div class="spacer"></div>
+            <div class="data">{{ message.data }}</div>
+            <div class="data_full" style="display:none">{{ message.data_full }}</div>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <div id="mail">
+          <div class="id" style="display:none"></div>
+          <div class="subject"></div>
+          <div class="addr">
+            <div class="addr_left">
+              <div><i class="fa-fw fa-solid fa-user"></i> <span class="from"></span></div>
+              <div><i class="fa-fw fa-solid fa-circle-arrow-right"></i> <span class="to"></span></div>
+            </div>
+            <div class="data"></div>
+          </div>
+          <div class="content"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.6.0/mootools.min.js"></script>
+  <script src="/static/js/global.js"></script>
+</body>
+
+</html>

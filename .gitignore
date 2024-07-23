@@ -1,0 +1,9 @@
+
+*.pyc
+__pycache__
+
+main.cf
+virtual
+
+app/db.sqlite3
+

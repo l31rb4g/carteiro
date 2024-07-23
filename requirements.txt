@@ -1,0 +1,4 @@
+requests==2.23.0
+Django==5.0.7
+pytz==2020.5
+

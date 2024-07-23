@@ -1,0 +1,53 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Atrial, sans-serif;
+  font-size: 18px;
+}
+
+h1 {
+  padding: 0 10px;
+  font-size: 30px;
+  line-height: 50px;
+  margin: 0;
+}
+
+#dominio {
+  font-size: 20px;
+}
+
+#login {
+  background: #f9f9f9;
+  width: 300px;
+  margin: 200px auto;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  padding: 30px 60px;
+}
+
+form {
+  margin-top: 30px;
+}
+form input[type=password] {
+  text-align: center;
+  font-size: 30px;
+  padding: 5px;
+  width: 200px;
+}
+form .btn {
+  margin-top: 20px;
+}
+form button {
+  padding: 10px;
+  font-size: 22px;
+  border: 1px solid #666;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #eee;
+}
+form button:hover {
+  background: #ddd;
+}

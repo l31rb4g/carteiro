@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+export PYTHONUNBUFFERED=1
+
+cd /root
+
+mkdir -p /root/Maildir/new
+
+service syslog-ng start
+
+cd /mail
+echo '>>> Configurando domínio'
+cat _main.cf | sed -e "s/{{ DOMINIO }}/$CARTEIRO_DOMINIO/g" > main.cf
+cat _virtual | sed -e "s/{{ DOMINIO }}/$CARTEIRO_DOMINIO/g" > virtual
+
+postmap /etc/postfix/virtual
+
+
+echo
+echo '>>> Criando virtualenv'
+python3 -m venv .venv
+source .venv/bin/activate
+
+echo '>>> Instalando dependências'
+python3 -m pip install -r /mail/requirements.txt
+
+
+echo
+echo '>>> Iniciando watcher'
+/mail/watcher &
+
+
+echo '>>> Iniciando postfix'
+postfix start-fg &
+
+
+echo '>>> Iniciando app'
+cd /mail/app
+python3 manage.py migrate
+python3 manage.py runserver 0.0.0.0:8000
+

@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+import re
+import os
+import email
+import quopri
+import requests
+from time import sleep
+from base64 import b64encode, b64decode
+
+
+DEBUG = True
+MAILDIR = '/root/Maildir/new'
+
+
+class Watcher:
+    def __init__(self):
+        while True:
+            for mailfile in self._get_files():
+                self._handle_mail(mailfile)
+
+            sleep(1)
+
+    def _handle_mail(self, mailfile):
+        with open(mailfile) as _f:
+            mail = email.message_from_file(_f)
+
+        _subject = quopri.decodestring(mail['subject']).decode()
+
+        if '=?UTF-8?B?' in _subject:
+            subject = ''
+            _utf = _subject.split('UTF-8?B?')
+            n = -1
+            for upart in _utf:
+                n += 1
+                if n == 0:
+                    continue
+                subject += b64decode(upart.replace('?', '').replace(' ', '=')).decode().strip()
+
+        elif '=?UTF-8?Q?' in _subject:
+            _utf = _subject.split('=?UTF-8?Q?')
+            subject = ''
+            n = -1
+            for upart in _utf:
+                n += 1
+                if n == 0:
+                    continue
+                subject += upart.replace('?', '').replace(' ', '').replace('_', ' ').strip()
+
+        else:
+            subject = _subject
+
+        parts = []
+        _both = re.findall(r'^([a-zA-Z0-9\-_. ]+) <(.*)>$', mail['from'])
+        _from = {'email': mail['from'], 'name': None}
+
+        if _both:
+            _from['email'] = _both[0][1]
+            _from['name'] = _both[0][0]
+
+        for part in mail.get_payload():
+            content = quopri.decodestring(part.get_payload()).decode()
+            content = b64encode(content.encode())
+            parts.append([part.get_content_type(), content.decode()])
+
+        if DEBUG:
+            print('========================================================================')
+            print('De: {}'.format(mail['from']))
+            print('Para: {}'.format(mail['to']))
+            print('Assunto: {}'.format(subject))
+            print('========================================================================')
+            for part in parts:
+                print('---------------------')
+                print(part[0])
+                print('---------------------')
+                print(part[1])
+            print('========================================================================')
+            print('', flush=True)
+
+        req = self._request({
+            'from_email': _from['email'],
+            'from_name': _from['name'],
+            'to': mail['to'],
+            'subject': subject,
+            'parts': parts,
+        })
+    
+        is req and req.status_code == 200:
+            os.remove(mailfile)
+
+    def _request(self, data:dict):
+        req = None
+        print(data, flush=True)
+
+        try:
+            res = requests.post('http://localhost:8000/hook', json=data)
+            print(req.text, flush=True)
+        except:
+            pass
+        return req
+
+    def _get_files(self) -> list:
+        out = []
+        for _file in os.listdir(MAILDIR):
+            out.append(f'{MAILDIR}/{_file}')
+        return out
+
+
+if __name__ == '__main__':
+    if DEBUG:
+        print('================', flush=True)
+        print('Starting watcher', flush=True)
+        print('================', flush=True)
+
+    Watcher()
+
