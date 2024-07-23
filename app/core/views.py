@@ -28,7 +28,7 @@ def login(request):
     if request.POST:
         pw = request.POST['senha']
 
-        if senha and pw == SENHA:
+        if senha and pw == senha:
             request.session['user'] = True
             return redirect('/')
     
