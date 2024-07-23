@@ -15,7 +15,7 @@ git submodule add https://github.com/l31rb4g/carteiro.git mail
 ## DNS
 Entrada MX apontando para cá:
 ```
-# dig mx example.com
+$ dig mx example.com
 > example.		300	IN	MX	10 example.com.
 ```
 
