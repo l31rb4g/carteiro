@@ -85,7 +85,8 @@ class Watcher:
         })
     
         if req and req.status_code == 200:
-            os.remove(mailfile)
+            print('DEL')
+        os.remove(mailfile)
 
     def _request(self, data:dict):
         req = None
