@@ -92,11 +92,9 @@ class Watcher:
 
     def _request(self, data:dict):
         req = None
-        print(data, flush=True)
 
         try:
             req = requests.post('http://localhost:8000/hook', json=data)
-            print(req.text, flush=True)
         except:
             pass
         return req
