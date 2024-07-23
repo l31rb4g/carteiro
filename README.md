@@ -1,5 +1,13 @@
 # Carteiro
-É que eu quero evitar a fadiga...
+> "É que eu quero evitar a fadiga..."
+Carteiro é um submódulo docker compose que recebe e exibe e-mails próprios.
+
+
+## Instalação do submódulo
+```
+git submodule add https://github.com/l31rb4g/carteiro.git mail
+```
+⚠ Atenção para o `mail` no final do comando.
 
 
 ## Variáveis
