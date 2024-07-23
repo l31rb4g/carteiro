@@ -4,7 +4,8 @@
 Carteiro é um submódulo docker compose que recebe e exibe e-mails próprios.
 
 
-## Instalação do submódulo
+## Instalação
+Clone com submodule do git
 ```
 git submodule add https://github.com/l31rb4g/carteiro.git mail
 ```
