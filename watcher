@@ -94,7 +94,7 @@ class Watcher:
         print(data, flush=True)
 
         try:
-            res = requests.post('http://localhost:8000/hook', json=data)
+            req = requests.post('http://localhost:8000/hook', json=data)
             print(req.text, flush=True)
         except:
             pass
