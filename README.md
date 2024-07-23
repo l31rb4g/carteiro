@@ -1,4 +1,5 @@
 # Carteiro
+É que eu quero evitar a fadiga...
 
 
 ## Variáveis
