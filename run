@@ -43,9 +43,11 @@ echo '>>> Iniciando postfix'
 postfix start-fg &
 
 
+cd /mail/app
+
+
 echo
 echo '>>> Iniciando app'
-cd /mail/app
 python3 manage.py migrate
 python3 manage.py runserver 0.0.0.0:8000
 
