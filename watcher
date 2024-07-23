@@ -84,6 +84,7 @@ class Watcher:
             'parts': parts,
         })
     
+        print('status', req.status_code)
         if req and req.status_code == 200:
             print('DEL', req.status_code)
         os.remove(mailfile)
