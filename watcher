@@ -36,6 +36,16 @@ class Watcher:
                     continue
                 subject += b64decode(upart.replace('?', '').replace(' ', '=')).decode().strip()
 
+        elif '=?utf-8?q?' in _subject:
+            _utf = _subject.split('=?utf-8?q?')
+            subject = ''
+            n = -1
+            for upart in _utf:
+                n += 1
+                if n == 0:
+                    continue
+                subject += upart.replace('?', '').replace(' ', '').replace('_', ' ').strip()
+
         elif '=?UTF-8?Q?' in _subject:
             _utf = _subject.split('=?UTF-8?Q?')
             subject = ''
@@ -58,7 +68,17 @@ class Watcher:
             _from['name'] = _both[0][0]
 
         for part in mail.get_payload():
-            content = quopri.decodestring(part.get_payload()).decode()
+            content = ''
+            try:
+                content = quopri.decodestring(part.get_payload()).decode()
+            except:
+                content = part.get_payload()
+
+            if not content:
+                print('--------------------------------------------')
+                print('ERRO: Não foi possível decodificar payload')
+                print(mailfile)
+
             content = b64encode(content.encode())
             parts.append([part.get_content_type(), content.decode()])
 

@@ -12,7 +12,13 @@ def index(request):
     for message in messages:
         data = localdate(message.created_at)
         message.parts = MessagePart.objects.filter(message=message)
-        message.resumo = message.parts[0].content[:256].replace('\n', ' ')
+
+        try:
+            message.resumo = message.parts[0].content[:256].replace('\n', ' ')
+        except:
+            print('ERRO: não foi possível obter resumo')
+            message.resumo = ''
+
         message.data = MESES[data.month] + f' {data.day}'
         message.data_full = data.strftime('%d/%m/%Y - %H:%M')
 
