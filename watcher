@@ -108,6 +108,7 @@ class Watcher:
         })
     
         if req and req.status_code == 200:
+            print('Mensagem processada com sucesso, excluindo arquivo original')
             os.remove(mailfile)
 
     def _request(self, data:dict):
