@@ -72,12 +72,15 @@ class Watcher:
             try:
                 content = quopri.decodestring(part.get_payload()).decode()
             except:
-                content = part.get_payload()
-
-            if not content:
                 print('--------------------------------------------')
                 print('ERRO: Não foi possível decodificar payload')
-                print(mailfile)
+                print('--------------------------------------------')
+                content = part.get_payload()
+                print(type(content))
+
+            if not content:
+                print('ERRO: Não foi possível decodificar o arquivo ' + mailfile)
+                return
 
             content = b64encode(content.encode())
             parts.append([part.get_content_type(), content.decode()])
