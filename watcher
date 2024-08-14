@@ -15,8 +15,8 @@ MAILDIR = '/root/Maildir/new'
 class Watcher:
     def __init__(self):
         while True:
-            for mailfile in self._get_files():
-                self._handle_mail(mailfile)
+            #for mailfile in self._get_files():
+            #    self._handle_mail(mailfile)
 
             sleep(1)
 

@@ -7,6 +7,10 @@ from core.utils import read_json, MESES, localdate
 
 
 def index(request):
+    contas = Message.objects.raw('SELECT 0 id, `to` FROM core_message GROUP BY `to`')
+    for conta in contas:
+        print(conta.__dict__)
+
     messages = Message.objects.filter(deleted=False).order_by('-created_at')
 
     for message in messages:
